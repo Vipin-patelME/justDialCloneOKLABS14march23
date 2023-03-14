@@ -1,0 +1,78 @@
+header{
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #F8F9FA;
+    color: black;
+}
+.web-logo{
+    height: 50px;
+    width: 130px;
+}
+main{
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+    background-color: #FFFFFF;
+}
+.nav-cont{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: end;
+}
+footer{
+    height: 150px;
+    background-color: #F8F9FA;
+    text-align: center;
+}
+.categories-list{
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.list-items{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    height: 150px;
+    width: 150px;
+}
+.login-page{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aqua;
+    height: 100vh;
+}
+.login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(3, 117, 117);
+    width: 50%;
+    height: 60%;
+    border-radius: 10px;
+    color: aliceblue;
+}
+.btn-cont{
+    width: 10%;
+    align-self: center;
+    margin-right: 35%;
+}
+.cr-btn-cont{
+    width: 10%;
+    align-self: center;
+    margin-right: 20%;
+}
+.footer-head{
+    font-size: 50px;
+}
