@@ -8,7 +8,7 @@ const ListItems = (props)=>{
     return(
         <>
             <li className='list-items'>
-                <img className='' src={`${URL}${imgUrl}`} />
+                <img  src={`${URL}${imgUrl}`}  alt="logo" />
                 <p>{categoryName}</p>
             </li>
         </>
