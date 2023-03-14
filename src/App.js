@@ -3,7 +3,6 @@ import LayOut from "./components/ui/LayOut";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
-import ProtectedRoute from "./pages/ProtectedRoute";
 import Home from "./pages/Home";
 
 
