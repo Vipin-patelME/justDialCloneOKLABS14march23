@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Container } from 'react-bootstrap'
 import { URL } from '../helpers/ApiHelper'
 import { Rings } from 'react-loader-spinner'
 
@@ -42,6 +41,7 @@ function Home() {
         }
         getData()
     }, [])
+
 
   return (
     <>
