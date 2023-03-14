@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
-import Home from '../../pages/Home'
+import { Outlet } from 'react-router-dom'
 import Footer from './Footer'
 import Header from './Header'
 
@@ -10,7 +10,7 @@ function LayOut() {
         <Header />
         <Container>
             <main>
-                <Home />
+                <Outlet />
             </main>
         </Container>
         <Footer />
