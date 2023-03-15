@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import swal from 'sweetalert';
 
 export default function Register() {
 
@@ -18,8 +19,6 @@ export default function Register() {
     }
 
     const onLogiSuccess = ()=>{
-        alert("Registration Successful")
-        window.location.href="/login"
     }
 
     const onSubmitUserDetails = ()=>{
@@ -39,14 +38,15 @@ export default function Register() {
 
         fetch(url, options)
         .then((res =>{
-            console.log(res)
+            console.log(res.json())
             //return res.json()
             if (res.ok === true){
+                swal("Boom...!", "User created successfuly!", "success")
                 onLogiSuccess()
             } 
             else{
-                alert("User Already exist plaese login")
-                window.location.href="/login"
+                swal("Awwww....!", "User name or Gmail already taken!", "error")
+                
             }
         }))
         .catch()

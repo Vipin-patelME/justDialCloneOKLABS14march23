@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import swal from 'sweetalert'
 
 function Login() {
 
@@ -35,13 +36,14 @@ function Login() {
         };
 
         const res = await fetch(url, options)
+        swal("Well done", "Logged in Successfuly", "success")
         const data = await res.json()
         
         if (res.ok === true){
             onLoginSuccess(data)
         }
         else{
-            alert("Invalid Credentials")
+            swal("Awwww...", "Credentials mismatch", "warning")
         }
         
     }
