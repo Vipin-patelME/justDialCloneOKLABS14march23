@@ -20,7 +20,9 @@ function App() {
             <Route 
               path ="/register/bussiness" 
               element={
-                        <ProtectedRoute> <BusinessRegister /> </ProtectedRoute>
+                        <ProtectedRoute> 
+                          <BusinessRegister /> 
+                        </ProtectedRoute>
                       } 
             />
           </ Route>
