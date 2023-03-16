@@ -5,6 +5,7 @@ import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import BusinessRegister from "./pages/BusinessRegister";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 
 function App() {
@@ -16,7 +17,12 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path ="/register/bussiness" element={<BusinessRegister />} /> 
+            <Route 
+              path ="/register/bussiness" 
+              element={
+                        <ProtectedRoute> <BusinessRegister /> </ProtectedRoute>
+                      } 
+            />
           </ Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
