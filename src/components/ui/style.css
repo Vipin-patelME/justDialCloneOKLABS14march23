@@ -45,11 +45,12 @@ footer{
     width: 120px;
 }
 .login-page{
+    margin-top: 30px;
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    background-color: aqua;
+    align-items: start;
+    background-color: #FFFFFF;
     height: 100vh;
 }
 .login-form{
@@ -75,4 +76,20 @@ footer{
 }
 .footer-head{
     font-size: 50px;
+}
+.register-business{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(168, 236, 10);
+    width: 70%;
+    min-height: 60%;
+    border-radius: 10px;
+    color: aliceblue;
+}
+.rg-bs-btn{
+    width: 10%;
+    align-self: center;
+    margin-right: 7%;
 }

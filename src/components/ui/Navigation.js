@@ -10,6 +10,8 @@ function Navigation() {
         window.location.href = '/register'
     }
 
+    const jwtToken = localStorage.getItem("jwtToken")
+
   return (
     <Navbar bg="light" expand="lg">
         <Container fluid>
@@ -36,10 +38,24 @@ function Navigation() {
                         navbarScroll
                     >
                         <Link to="/" className='btn btn-primary me-3'>Home</Link>
-                        <Link className='btn btn-primary me-3' to="/login">Login</Link>
-                        <Link className='btn btn-primary me-3' to="/register">Register</Link>
+                        {!jwtToken ? 
+                        (
+                            <>
+                                <Link className='btn btn-primary me-3' to="/register">Register</Link>
+                                <Link className='btn btn-primary me-3' to="/login">Login</Link>
+                            </>
+                        )
+                        :
+                        (
+                            <>
+                                <Link className='btn btn-primary me-3' to="/register/bussiness">Register You Bussiness</Link>
+                                <Link className=" btn btn-warning me-5" onClick={onLogout}>Logout</Link>
+                            </>
+                        )
+                        }
+                        
                     </Nav> 
-                        <Link className=" btn btn-warning me-5" onClick={onLogout}>Logout</Link>
+                        
                 </div>
             </Navbar.Collapse>
         </Container>
