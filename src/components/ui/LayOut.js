@@ -8,11 +8,11 @@ function LayOut() {
   return (
     <>
         <Header />
-        <Container>
+        <div >
             <main>
                 <Outlet />
             </main>
-        </Container>
+        </div>
         <Footer />
     </>
     
