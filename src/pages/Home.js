@@ -9,7 +9,7 @@ const ListItems = (props)=>{
         <>
             <li className='list-items'>
                 <img className='img-style'  src={`${URL}${imgUrl}`}  alt={categoryName} />
-                <p className='text-center'>{categoryName}</p>
+                <p className='text-center w-75'>{categoryName}</p>
             </li>
         </>
     )
@@ -37,7 +37,7 @@ function Home() {
                         })
             })
             setCategories([...newData])
-            console.log(newData)
+            //console.log(newData)
         }
         getData()
     }, [])

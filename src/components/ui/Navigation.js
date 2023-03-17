@@ -48,7 +48,7 @@ function Navigation() {
                         :
                         (
                             <>
-                                <Link className='btn btn-primary me-3' to="/register/bussiness">Register You Bussiness</Link>
+                                <Link className='btn btn-primary me-3' to="/register/bussiness">Register Bussiness</Link>
                                 <Link className=" btn btn-warning me-5" onClick={onLogout}>Logout</Link>
                             </>
                         )

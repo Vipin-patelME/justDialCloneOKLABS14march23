@@ -18,10 +18,9 @@ export default function Register() {
         setEmail(e.target.value)
     }
 
-    const onLogiSuccess = ()=>{
-    }
 
-    const onSubmitUserDetails = ()=>{
+    const onSubmitUserDetails = (e)=>{
+        e.preventDefault()
         const url = "http://localhost:1337/api/auth/local/register"
         const userData = {
             "username": username,
@@ -42,7 +41,6 @@ export default function Register() {
             //return res.json()
             if (res.ok === true){
                 swal("Boom...!", "User created successfuly!", "success")
-                onLogiSuccess()
             } 
             else{
                 swal("Awwww....!", "User name or Gmail already taken!", "error")
@@ -54,7 +52,7 @@ export default function Register() {
 
     return (
         <div className='login-page'>
-            <form  className='login-form'>
+            <form  className='login-form' onSubmit={onSubmitUserDetails}>
                 <div className="mb-3 ml-5 w-75 row">
                     <label htmlFor="staticEmail" className="col-sm-2 col-form-label">User name</label>
                     <div className="col-sm-10 w-50">
@@ -74,7 +72,7 @@ export default function Register() {
                     </div>
                 </div>
                 <div className="mb-3 row cr-btn-cont w-25 ml-5">
-                    <input onClick={onSubmitUserDetails} className='btn btn-primary' value = "Create Account" />
+                    <button type='submit'  className='btn btn-primary'>Create Account </button>
                 </div>
             </form>
         </div>
