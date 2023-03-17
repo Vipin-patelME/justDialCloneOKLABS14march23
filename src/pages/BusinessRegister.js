@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { URL } from '../helpers/ApiHelper'
 import swal from 'sweetalert'
@@ -64,6 +63,7 @@ function BusinessRegister() {
 
         const res = await fetch(`${URL}/api/businesses`,options)
         const data = await res.json()
+        console.log(data)
         if (res.ok === true){
             swal("Boom...", "Your business Registerd successfuly", "success")
             window.location.href = "/"
