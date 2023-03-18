@@ -23,7 +23,7 @@ export default function Register() {
         e.preventDefault()
         const url = "http://localhost:1337/api/auth/local/register"
         const userData = {
-            "username": username,
+            "username": username.toLowerCase(),
             "email": email,
             "password": password
           }

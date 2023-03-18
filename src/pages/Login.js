@@ -25,7 +25,7 @@ function Login() {
         e.preventDefault()
         const url = "http://localhost:1337/api/auth/local"
         const userData = {
-            "identifier": username,
+            "identifier": username.toLowerCase(),
             "password": password
           }
           
