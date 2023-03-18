@@ -56,7 +56,7 @@ footer{
     display: flex;
     justify-content: center;
     background-color: #FFFFFF;
-    min-height: 100vh;
+    min-height: 400px;
 
 }
 .login-form{

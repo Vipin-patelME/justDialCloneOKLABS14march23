@@ -6,12 +6,12 @@ const ListItems = (props)=>{
     const {category} = props
     const {categoryName, imgUrl} = category
     return(
-        <>
+        <a>
             <li className='list-items'>
                 <img className='img-style'  src={`${URL}${imgUrl}`}  alt={categoryName} />
                 <p className='text-center w-75'>{categoryName}</p>
             </li>
-        </>
+        </a>
     )
 }
 

@@ -88,7 +88,21 @@ function BusinessRegister() {
         console.log(data)
         if (res.ok === true){
             swal("Boom...", "Your business Registerd successfuly", "success")
-            window.location.href = "/"
+            //window.location.href = "/"
+            setDetails(
+                {
+                    country:"",
+                    state:"",
+                    city:"",
+                    category:"",
+                    bussinessName:"",
+                    email:"",
+                    contactNo:"",
+                    address:"",
+                    isCountrySelected:false,
+                    isStateSelected:false
+                  }
+            )
         }
         
 
@@ -119,6 +133,7 @@ function BusinessRegister() {
                                 <label htmlFor="inputEmail" className="col-sm-2 col-form-label w-25">State</label>
                                 <div className="col-sm-10 w-50">
                                     <Input type={"select"} name="state" value={details.state} onChange={onHandleInput}>  
+                                        <option>Select State</option>
                                         {
                                             states.map((cv, idx) =>
                                             <option key={idx} value={cv.id}>{cv.name}</option>
@@ -134,6 +149,7 @@ function BusinessRegister() {
                                 <label htmlFor="inputEmail" className="col-sm-2 col-form-label w-25">City</label>
                                 <div className="col-sm-10 w-50">
                                     <Input type={"select"} name="city" value={details.city} onChange={onHandleInput}>
+                                        <option>Select City</option>
                                         {
                                             cities.map((cv, idx) =>
                                             <option key={idx} value={cv.id}>{cv.name}</option>
