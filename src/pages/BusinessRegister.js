@@ -5,24 +5,30 @@ import swal from 'sweetalert'
 
 function BusinessRegister() {
 
+    const [contries, setContries] = useState([])
+    const [states, setStates] = useState([])
     const [cities, setCities] = useState([])
     const [categories, setCategories] = useState([])
     const [details, setDetails] = useState({
+                                            country:"",
+                                            state:"",
                                             city:"",
                                             category:"",
                                             bussinessName:"",
                                             email:"",
                                             contactNo:"",
-                                            address:""
+                                            address:"",
+                                            isCountrySelected:false,
+                                            isStateSelected:false
                                           })
 
     useEffect(()=>{
         const findCities = async()=>{
-            const response = await fetch(`${URL}/api/cities`)
+            const response = await fetch(`${URL}/api/countries`)
             const data = await response.json()
             console.log("cities --------->", data.data)
-            const newCities = data.data.map((cv)=>({id:cv.id, name:cv.attributes.city_name}))
-            setCities(newCities)
+            const newContries = data.data.map((cv)=>({id:cv.id, name:cv.attributes.country_name}))
+            setContries(newContries)
         }
         const findCategories = async()=>{
             const response = await fetch(`${URL}/api/categories`)
@@ -35,8 +41,24 @@ function BusinessRegister() {
         findCategories()
     }, [])
 
-    const onHandleInput =(e)=>{
+    const onHandleInput =async(e)=>{
         const {name, value} = e.target
+        if(name === "country"){
+            const response = await fetch(`${URL}/api/states?filters[country][id][$eq]=${value}`)
+            const data = await response.json()
+            console.log("filtered States --------->",value,  data.data)
+            const newStates = data.data.map((cv)=>({id:cv.id, name:cv.attributes.Name}))
+            setStates(newStates)
+            setDetails(prevDetails =>({...prevDetails, isCountrySelected:true }))
+        }
+        else if (name === "state"){
+            const response = await fetch(`${URL}/api/cities?filters[state][id][$eq]=${value}`)
+            const data = await response.json()
+            console.log("filtered cities --------->",value,  data.data)
+            const newcities = data.data.map((cv)=>({id:cv.id, name:cv.attributes.city_name}))
+            setCities(newcities)
+            setDetails(prevDetails =>({...prevDetails, isStateSelected:true }))
+        }
         setDetails(preDetails =>({...preDetails, [name]:value}))
     }
     const onSubmitUserDetails = async(e)=>{
@@ -79,17 +101,48 @@ function BusinessRegister() {
                 <div className='login-page'>
                     <form  className='register-business' onSubmit={onSubmitUserDetails}>
                         <div className="mb-3 ml-5 w-75 row">
-                            <label htmlFor="inputEmail" className="col-sm-2 col-form-label w-25">City</label>
+                            <label htmlFor="inputEmail" className="col-sm-2 col-form-label w-25">Country</label>
                             <div className="col-sm-10 w-50">
-                                <Input type={"select"} name="city" value={details.city} onChange={onHandleInput}>
+                                <Input type={"select"} name="country" value={details.country} onChange={onHandleInput} placeholder="select country">
+                                    <option>Select country</option>
                                     {
-                                        cities.map((cv, idx) =>
+                                        contries.map((cv, idx) =>
                                         <option key={idx} value={cv.id}>{cv.name}</option>
                                         )
                                     }
                                 </Input>
                             </div>
                         </div>
+                        {
+                            details.isCountrySelected && 
+                            <div className="mb-3 ml-5 w-75 row">
+                                <label htmlFor="inputEmail" className="col-sm-2 col-form-label w-25">State</label>
+                                <div className="col-sm-10 w-50">
+                                    <Input type={"select"} name="state" value={details.state} onChange={onHandleInput}>  
+                                        {
+                                            states.map((cv, idx) =>
+                                            <option key={idx} value={cv.id}>{cv.name}</option>
+                                            )
+                                        }
+                                    </Input>
+                                </div>
+                            </div>
+                        }
+                        {
+                            details.isStateSelected && 
+                            <div className="mb-3 ml-5 w-75 row">
+                                <label htmlFor="inputEmail" className="col-sm-2 col-form-label w-25">City</label>
+                                <div className="col-sm-10 w-50">
+                                    <Input type={"select"} name="city" value={details.city} onChange={onHandleInput}>
+                                        {
+                                            cities.map((cv, idx) =>
+                                            <option key={idx} value={cv.id}>{cv.name}</option>
+                                            )
+                                        }
+                                    </Input>
+                                </div>
+                            </div>
+                        }
                         <div className="mb-3 ml-5 w-75 row">
                             <label htmlFor="staticEmail" className="col-sm-2 col-form-label w-25">Business Category</label>
                             <div className="col-sm-10 w-50">

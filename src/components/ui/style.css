@@ -1,3 +1,7 @@
+.main-cont{
+    min-height: 1000px;
+    width: 100%;
+}
 header{
     height: 100px;
     display: flex;
@@ -22,6 +26,7 @@ main{
     justify-content: space-between;
     align-items: center;
     align-self: end;
+    margin-left: 30%;
 }
 footer{
     height: 150px;
@@ -46,14 +51,16 @@ footer{
     padding-top: 50px;
 }
 .login-page{
-    margin-top: 0px;
+    margin-bottom: 40px;
     width: 100%;
     display: flex;
     justify-content: center;
     background-color: #FFFFFF;
-    height: 100vh;
+    min-height: 100vh;
+
 }
 .login-form{
+    padding-top: 40px;
     margin-top: 40px;
     display: flex;
     flex-direction: column;
@@ -100,4 +107,16 @@ footer{
     border: 1px solid gray;
     padding: 15px;
     border-radius: 10px;
+}
+.nav_items{
+    display: flex;
+    justify-content: space-between;
+}
+.not-found{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

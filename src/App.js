@@ -6,30 +6,39 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import BusinessRegister from "./pages/BusinessRegister";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import { createContext } from "react";
 
+export const FilterContext = createContext()
+
+const userFilterInput = {
+                          inputValue:"",
+                          onFilter: ()=>{}
+                        }
 
 function App() {
 
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LayOut />}>
-            <Route index element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route 
-              path ="/register/bussiness" 
-              element={
-                        <ProtectedRoute> 
-                          <BusinessRegister /> 
-                        </ProtectedRoute>
-                      } 
-            />
-          </ Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-  );
+      <FilterContext.Provider value={{...userFilterInput}}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LayOut />}>
+              <Route index element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="*" element={<NotFound />} />
+              <Route 
+                path ="/register/bussiness" 
+                element={
+                          <ProtectedRoute> 
+                            <BusinessRegister /> 
+                          </ProtectedRoute>
+                        } 
+              />
+            </ Route>
+          </Routes>
+        </BrowserRouter>
+      </FilterContext.Provider>
+  )
 }
 
 export default App;

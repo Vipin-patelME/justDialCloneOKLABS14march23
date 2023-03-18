@@ -5,13 +5,13 @@ import Header from './Header'
 
 function LayOut() {
   return (
-    <>
+    <div className='main-cont'>
         <Header />
           <main>
               <Outlet />
           </main>
         <Footer />
-    </>
+    </div>
     
   )
 }
