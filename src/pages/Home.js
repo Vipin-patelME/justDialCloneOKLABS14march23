@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { URL } from '../helpers/ApiHelper'
 import { Rings } from 'react-loader-spinner'
+import { Link } from 'react-router-dom'
 
 const ListItems = (props)=>{
     const {category} = props
     const {categoryName, imgUrl} = category
     return(
-        <>
+        <Link className='link-style' to="/business/details">
             <li className='list-items'>
                 <img className='img-style'  src={`${URL}${imgUrl}`}  alt={categoryName} />
                 <p className='text-center w-75'>{categoryName}</p>
             </li>
-        </>
+        </Link>
     )
 }
 
