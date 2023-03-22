@@ -7,7 +7,8 @@ import Home from "./pages/Home";
 import BusinessRegister from "./pages/BusinessRegister";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { createContext } from "react";
-import BusinessDetail from "./pages/BusinessDetail";
+//import BusinessDetail from "./pages/BusinessDetail";
+import Businesses from "./pages/Businesses";
 
 export const FilterContext = createContext()
 
@@ -27,7 +28,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="*" element={<NotFound />} />
-              <Route path="business/details" element={<BusinessDetail />} />
+              <Route path="business/details/:id" element={<Businesses />} />
               <Route 
                 path ="/register/bussiness" 
                 element={

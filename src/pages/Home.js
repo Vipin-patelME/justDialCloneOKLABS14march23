@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 
 const ListItems = (props)=>{
     const {category} = props
-    const {categoryName, imgUrl} = category
+    const {categoryName, imgUrl,id} = category
     return(
-        <Link className='link-style' to="/business/details">
+        <Link className='link-style' to={`/business/details/${id}`}>
             <li className='list-items'>
                 <img className='img-style'  src={`${URL}${imgUrl}`}  alt={categoryName} />
                 <p className='text-center w-75'>{categoryName}</p>
@@ -33,6 +33,7 @@ function Home() {
             const newData = data.data.map((cv,idx) =>{
                 //console.log(cv.attributes.image.data[0].attributes.name                  )
                 return ({
+                            id:cv.id,
                             categoryName: cv.attributes.business_name,
                             imgUrl:cv.attributes.image.data[0].attributes.url
                         })

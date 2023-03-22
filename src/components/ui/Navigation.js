@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap'
 
 //import { FilterContext } from '../../App'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { URL } from '../../helpers/ApiHelper'
 
 function Navigation() {
@@ -57,19 +57,19 @@ function Navigation() {
                                 style={{ maxHeight: '100px' }}
                                 navbarScroll
                             >
-                                <Link to="/" className='btn btn-primary me-3'>Home</Link>
+                                <NavLink to="/" className='btn btn-primary me-3'>Home</NavLink>
                                 {!jwtToken ? 
                                 (
                                     <>
-                                        <Link className='btn btn-primary me-3' to="/register">Register</Link>
-                                        <Link className='btn btn-primary me-3' to="/login">Login</Link>
+                                        <NavLink className='btn btn-primary me-3' to="/register">Register</NavLink>
+                                        <NavLink className='btn btn-primary me-3' to="/login">Login</NavLink>
                                     </>
                                 )
                                 :
                                 (
                                     <>
-                                        <Link className='btn btn-primary me-3' to="/register/bussiness">Register Bussiness</Link>
-                                        <Link className=" btn btn-warning me-5" onClick={onLogout}>Logout</Link>
+                                        <NavLink className='btn btn-primary me-3' to="/register/bussiness">Register Bussiness</NavLink>
+                                        <NavLink className=" btn btn-warning me-5" onClick={onLogout}>Logout</NavLink>
                                     </>
                                 )
                                 }
