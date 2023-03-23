@@ -8,7 +8,7 @@ function Businesses() {
   return (
         <>
             {
-                array.map(eachItem =><BusinessDetail />)
+                array.map((eachItem, idx) =><BusinessDetail key={idx} />)
             }
         </>
     )

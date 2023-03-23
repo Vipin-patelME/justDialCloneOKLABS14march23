@@ -21,11 +21,9 @@ main{
     background-color: #FFFFFF;
 }
 .nav-cont{
-    width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    align-self: end;
     margin-left: 30%;
 }
 footer{

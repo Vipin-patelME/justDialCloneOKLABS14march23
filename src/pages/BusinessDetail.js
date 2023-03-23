@@ -1,12 +1,12 @@
 import React from 'react'
-import { useLocation, useMatch, useParams } from 'react-router-dom'
+//import { useLocation, useMatch, useParams } from 'react-router-dom'
 import { Col, Container, Row } from 'reactstrap'
 
 function BusinessDetail() {
-    const id = useParams()
-    const location = useLocation()
-    const history = useMatch('/register/bussiness')
-    console.log(history)
+    // const id = useParams()
+    // const location = useLocation()
+    // const history = useMatch('/register/bussiness')
+    //console.log(history)
     // console.log(location)
     // console.log(id)
     return (

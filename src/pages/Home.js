@@ -34,7 +34,7 @@ function Home() {
                 //console.log(cv.attributes.image.data[0].attributes.name                  )
                 return ({
                             id:cv.id,
-                            categoryName: cv.attributes.business_name,
+                            categoryName: cv.attributes.category_name,
                             imgUrl:cv.attributes.image.data[0].attributes.url
                         })
             })

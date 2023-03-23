@@ -34,7 +34,7 @@ function BusinessRegister() {
             const response = await fetch(`${URL}/api/categories`)
             const data = await response.json()
             console.log("categories --------->", data.data)
-            const newCategories = data.data.map((cv)=>({id:cv.id, name:cv.attributes.business_name}))
+            const newCategories = data.data.map((cv)=>({id:cv.id, name:cv.attributes.category_name}))
             setCategories(newCategories)
         }
         findCities()
@@ -64,6 +64,7 @@ function BusinessRegister() {
     const onSubmitUserDetails = async(e)=>{
         e.preventDefault()
         //console.log(details)
+        const jToken = localStorage.getItem("jwtToken")
         const payLoad = {
                             "data": {
                                         "Business_name":details.bussinessName ,
@@ -78,7 +79,8 @@ function BusinessRegister() {
         const options = {
                             method:"POST",
                             headers:{
-                                "Content-Type":"application/json"
+                                "Content-Type":"application/json",
+                                "Authorization":`Bearer ${jToken}`
                             },
                             body:JSON.stringify(payLoad)
                         }
@@ -103,6 +105,9 @@ function BusinessRegister() {
                     isStateSelected:false
                   }
             )
+        }
+        else{
+            swal("Awww.....","Forbidden", "warning")
         }
         
 

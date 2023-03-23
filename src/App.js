@@ -27,8 +27,8 @@ function App() {
               <Route index element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/business/details/:id" element={<Businesses />}/>
               <Route path="*" element={<NotFound />} />
-              <Route path="business/details/:id" element={<Businesses />} />
               <Route 
                 path ="/register/bussiness" 
                 element={
@@ -37,6 +37,7 @@ function App() {
                           </ProtectedRoute>
                         } 
               />
+              
             </ Route>
           </Routes>
         </BrowserRouter>
