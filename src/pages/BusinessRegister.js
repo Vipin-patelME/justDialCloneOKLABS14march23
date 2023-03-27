@@ -67,12 +67,10 @@ function BusinessRegister() {
         const jToken = localStorage.getItem("jwtToken")
         const payLoad = {
                             "data": {
-                                        "Business_name":details.bussinessName ,
-                                        "Email": details.email,
-                                        "Contact_no": details.contactNo,
-                                        "address": details.address,
-                                        "cities": [details.city
-                                        ],
+                                        "name":details.bussinessName ,
+                                        "contact_no": details.contactNo,
+                                        "addres": details.address,
+                                        "cities": [details.city],
                                         "category": details.category
                                     }
                         }
@@ -85,7 +83,7 @@ function BusinessRegister() {
                             body:JSON.stringify(payLoad)
                         }
 
-        const res = await fetch(`${URL}/api/businesses`,options)
+        const res = await fetch(`${URL}/api/occupations`,options)
         const data = await res.json()
         console.log(data)
         if (res.ok === true){
