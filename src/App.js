@@ -9,6 +9,8 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import { createContext } from "react";
 //import BusinessDetail from "./pages/BusinessDetail";
 import Businesses from "./pages/Businesses";
+import BusinessDetails from "./pages/BusinessDetails";
+//import AllBusinesses from "./pages/AllBusinesses";
 
 export const FilterContext = createContext()
 
@@ -18,7 +20,6 @@ const userFilterInput = {
                         }
 
 function App() {
-
   return (
       <FilterContext.Provider value={{...userFilterInput}}>
         <BrowserRouter>
@@ -27,7 +28,8 @@ function App() {
               <Route index element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/business/details" element={<Businesses />}/>
+              <Route path="/business/categories" element={<Businesses />}/>
+              <Route path="/business/details" element={<BusinessDetails />}/>
               <Route path="*" element={<NotFound />} />
               <Route 
                 path ="/register/bussiness" 

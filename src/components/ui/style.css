@@ -124,8 +124,10 @@ footer{
     margin-left: 2%;
 }
 .image-style{
-    height: 300px;
+    height: 240px;
+    width: 300px;
     margin-left: 30px;
+    margin-right: 30px;
     margin-top: 40px;
     border-radius: 5px;
 }
@@ -142,6 +144,7 @@ footer{
     height: 60px;
 }
 .rating-cont{
+    width: 55%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -172,7 +175,7 @@ footer{
     border-style: none;
 }
 .contact-btn-cont{
-    width: 50%;
+    width: 60%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -182,6 +185,7 @@ footer{
 }
 .link-style{
     text-decoration: none;
+    color: black;
 }
 .empty-para{
     text-align: center;
@@ -189,4 +193,23 @@ footer{
     margin-top: 15%;
     margin-bottom: 15%;
     color: rgb(36, 66, 6);
+}
+.business-list-items{
+    list-style-type: none;
+}
+.bdetai-rating-cont{
+    width: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.bdetails-card-head{
+    display: flex;
+    align-items: center;
+}
+.bdetails-card-style{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: -20px;
 }

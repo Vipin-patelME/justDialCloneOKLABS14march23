@@ -3,6 +3,7 @@ import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap'
 //import { Navigate } from 'react-router-dom';
 import Geocode from "react-geocode";
 import swal from 'sweetalert'
+import {TbLanguageHiragana} from 'react-icons/tb'
 
 //import FormCheckInput from 'react-bootstrap/esm/FormCheckInput'
 
@@ -23,7 +24,7 @@ function Navigation() {
     const [logoUrl, setLogoUrl] = useState('')
     const [placeName, setPlaceName] = useState("")
     const [locationSelected, setLocationSelected] = useState(false)
-
+    const [isEnglishActive, setIsEnglishActive ] = useState(true)
     useEffect(()=>{
         const findLogoUrl = async()=>{
             const response= await fetch(`${URL}/api/website?populate=*`)
@@ -90,8 +91,15 @@ function Navigation() {
     const onLogout = ()=>{
         setLocationSelected(false)
         localStorage.removeItem("jwtToken")
-        
-        
+    }
+    
+    const onChangeLanguageToEnglish=()=>{
+        localStorage.setItem("lang","hi")
+        setIsEnglishActive(!isEnglishActive)
+    }
+    const onChangeLanguageToHindi=()=>{
+        localStorage.setItem("lang","en")
+        setIsEnglishActive(!isEnglishActive)
     }
     
     return (
@@ -131,13 +139,19 @@ function Navigation() {
                         <Button variant="outline-success">Search</Button>
                     </Form>
                     <Navbar.Toggle aria-controls="navbarScroll" />
-                    <Navbar.Collapse className='w-50 ms-5' id="navbarScroll">
+                    <Navbar.Collapse className='w-75 ms-5' id="navbarScroll">
                         <Nav
-                            className=" w-75 ms-5 me-auto my-2 my-lg-0"
+                            className=" w-100 ms-5 my-2 my-lg-0"
                             style={{ maxHeight: '100px' }}
                             navbarScroll
                         >
-                            <NavLink to="/" className='btn btn-primary me-3'>Home</NavLink>
+                            {
+                                isEnglishActive ? <Button style={{width:"100px", padding:"0px"}} className='btn btn-primary me-3' onClick={onChangeLanguageToEnglish}>
+                                <TbLanguageHiragana style={{fontSize:"20px", marginRight:"8px"}} /><span>हिंदी</span></Button>
+                                :
+                                <Button style={{width:"100px"}}  className='btn btn-primary me-3' onClick={onChangeLanguageToHindi}>
+                                <TbLanguageHiragana style={{fontSize:"19px", marginRight:"4px"}} />English</Button>
+                            }
                             {!jwtToken ? 
                             (
                                 <>

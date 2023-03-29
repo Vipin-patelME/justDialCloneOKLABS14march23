@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import { Dropdown } from 'react-bootstrap'
 import { Rings } from 'react-loader-spinner'
 import { useSearchParams } from 'react-router-dom'
 import { URL } from '../helpers/ApiHelper'
-import BusinessDetail from './BusinessDetail'
+import AllBusinesses from './AllBusinesses'
+//import BusinessDetail from './AllBusinesses'
 
 function Businesses() {
     //const array = [1,2]
     const [isLoading, setIsLoading] = useState(true)
+    const [isOpen, setIsOpen] = useState(false)
     const [allBusiness, setAllBusiness] = useState([{name:""}])
     const [queryParam] = useSearchParams()
     const params = queryParam.get("category_name")
@@ -28,25 +31,40 @@ function Businesses() {
         }
         getBussinesse()
 
-    },[])
-
-
+    }, [])
+    const openMenu=()=>{
+        setIsOpen(!isOpen)
+    }
+    const closeMenu=()=>{
+        setIsOpen(!isOpen)
+    }
   return (
         <>
+            <Dropdown>
+                <Dropdown.Toggle variant="success" show={true} onMouseEnter={openMenu} onMouseLeave={closeMenu} id="dropdown-basic">
+                    Dropdown Button
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown> 
             {
                 isLoading ? 
                 <div className="d-flex justify-content-center items-center mt-5 pt-5 ">
                     <Rings color="#00BFFF" height={280} width={280} />
                 </div>
                 :
-                <>
+                <ul className='business-list-items'>
                     {
                         allBusiness.length > 0 ? 
-                        allBusiness.map((eachItem, idx) =><BusinessDetail details={eachItem}  key={idx} />)
+                        allBusiness.map((eachItem, idx) =><AllBusinesses details={eachItem}  key={idx} />)
                         :
-                        <h1 className='empty-para'>This Category has Nothing to show</h1>
+                        <h1 className='empty-para'>{`${params} Category has Nothing to show`}</h1>
                     }
-                </>
+                </ul>
             }
 
         </>
