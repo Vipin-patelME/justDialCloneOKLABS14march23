@@ -5,12 +5,13 @@ import Footer from './Footer'
 import Header from './Header'
 
 function LayOut() {
+
   return (
     <div className='main-cont'>
         <Header />
-          <Container fluid>
-              <Outlet />
-          </Container>
+            <Container style={{minHeight:"500px"}} fluid>
+                <Outlet />
+            </Container>
         <Footer />
     </div>
     

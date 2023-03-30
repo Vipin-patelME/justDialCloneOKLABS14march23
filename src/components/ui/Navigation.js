@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap'
 //import { Navigate } from 'react-router-dom';
 import Geocode from "react-geocode";
 import swal from 'sweetalert'
 import {TbLanguageHiragana} from 'react-icons/tb'
+
 
 //import FormCheckInput from 'react-bootstrap/esm/FormCheckInput'
 
@@ -11,6 +12,9 @@ import {TbLanguageHiragana} from 'react-icons/tb'
 import { Link, NavLink } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { GOOGLE_MAP_KEY, URL } from '../../helpers/ApiHelper'
+import { searchContext } from '../../Context';
+
+
 
 function Navigation() {
 
@@ -25,6 +29,8 @@ function Navigation() {
     const [placeName, setPlaceName] = useState("")
     const [locationSelected, setLocationSelected] = useState(false)
     const [isEnglishActive, setIsEnglishActive ] = useState(true)
+    const {filterInput, setFilterInput} = useContext(searchContext)
+
     useEffect(()=>{
         const findLogoUrl = async()=>{
             const response= await fetch(`${URL}/api/website?populate=*`)
@@ -105,11 +111,12 @@ function Navigation() {
     return (
             <Navbar bg="light" expand="lg">
                 <Container fluid className='d-flex w-100'>
-                    <Link to="/">
+                    <Link to="/" onClick={(e)=>setFilterInput("")}>
                         <img 
                             src={`${URL}${logoUrl}`} 
                             alt='logo'
                             className='web-logo me-5 ms-5' 
+                            
                         />
                     </Link>
                     <Form className="d-flex w-25 me-2">
@@ -131,10 +138,12 @@ function Navigation() {
                     </Form>
                     <Form className="d-flex  me-5">
                         <Form.Control
+                        value={filterInput}
                         type="search"
                         placeholder="Search"
                         className="me-2"
                         aria-label="Search"
+                        onChange={(e)=>setFilterInput(e.target.value)}
                         />
                         <Button variant="outline-success">Search</Button>
                     </Form>

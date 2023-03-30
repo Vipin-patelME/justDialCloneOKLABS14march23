@@ -6,22 +6,19 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import BusinessRegister from "./pages/BusinessRegister";
 import ProtectedRoute from "./pages/ProtectedRoute";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 //import BusinessDetail from "./pages/BusinessDetail";
 import Businesses from "./pages/Businesses";
 import BusinessDetails from "./pages/BusinessDetails";
 //import AllBusinesses from "./pages/AllBusinesses";
+import { searchContext } from "./Context";
 
-export const FilterContext = createContext()
-
-const userFilterInput = {
-                          inputValue:"",
-                          onFilter: ()=>{}
-                        }
+  
 
 function App() {
+  const [filterInput, setFilterInput] = useState("")
   return (
-      <FilterContext.Provider value={{...userFilterInput}}>
+      <searchContext.Provider value={{filterInput, setFilterInput}}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LayOut />}>
@@ -43,7 +40,7 @@ function App() {
             </ Route>
           </Routes>
         </BrowserRouter>
-      </FilterContext.Provider>
+      </searchContext.Provider>
   )
 }
 

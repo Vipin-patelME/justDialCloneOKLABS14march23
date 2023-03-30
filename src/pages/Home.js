@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { URL } from '../helpers/ApiHelper'
 import { Rings } from 'react-loader-spinner'
 import { Link } from 'react-router-dom'
+import { searchContext } from '../Context'
 
 const ListItems = (props)=>{
     const {category} = props
     const {categoryName, imgUrl} = category
+    
+
     return(
         <Link className='link-style' to={`/business/categories/?category_name=${categoryName}`}>
             <li className='list-items'>
@@ -20,9 +23,10 @@ const ListItems = (props)=>{
 
 function Home() {
 
-    const [categories, setCategories] = useState([])
+    const [categories, setCategories] = useState([{id:"",categoryName:"",imgUrl:"" }])
     const [isLoading, setIsLoading] = useState(true)
-
+    const {filterInput} = useContext(searchContext)
+    //console.log(filterInput)
     useEffect(()=>{
         const getData = async () =>{
             const url = `${URL}/api/categories?populate=*`
@@ -38,14 +42,14 @@ function Home() {
                             imgUrl:cv.attributes.image.data[0].attributes.url
                         })
             })
-            setCategories([...newData])
+            setCategories([...newData ])
             //console.log(newData)
         }
         getData()
-        localStorage.setItem("lang","en")
     }, [])
 
-
+    const filterderCategories = categories.filter(eachCategory =>eachCategory.categoryName.toLowerCase().includes(filterInput.toLowerCase()))
+    //console.log(filterderCategories)
   return (
     <>
         {
@@ -56,9 +60,15 @@ function Home() {
             :
             <ul className='categories-list'>
                 {
-                    categories.map((eachCategory, idx) =>
+                    filterderCategories.length > 0 ?
+                    filterderCategories.map((eachCategory, idx) =>
                         <ListItems key={idx} category={eachCategory} />    
                     )
+                    :
+                    <>
+                        <h1 className='empty-para'>Sorry....!! Searched Key word Does not contain any business category</h1>
+                        <h1 style={{textAlign:"center", width:"100%",marginBottom: "15%", marginTop:"30px", color: "green"}}>Thank you</h1>
+                    </>
                 }
             </ul>
         }
