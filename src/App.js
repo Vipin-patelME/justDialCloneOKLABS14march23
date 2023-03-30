@@ -6,7 +6,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import BusinessRegister from "./pages/BusinessRegister";
 import ProtectedRoute from "./pages/ProtectedRoute";
-import { createContext, useState } from "react";
+import { useState } from "react";
 //import BusinessDetail from "./pages/BusinessDetail";
 import Businesses from "./pages/Businesses";
 import BusinessDetails from "./pages/BusinessDetails";
