@@ -1,13 +1,13 @@
 import React from 'react'
 import {AiFillLike} from "react-icons/ai"
 //import {CiStar} from 'react-icons/ci'
-import {FaStar} from 'react-icons/fa'
+//import {FaStar} from 'react-icons/fa'
 import {TfiStar} from 'react-icons/tfi'
 import {AiOutlineHeart} from 'react-icons/ai'
 import {MdOutlineMessage} from 'react-icons/md'
 import { Badge, Card } from 'react-bootstrap'
 //import { useLocation, useMatch, useParams } from 'react-router-dom'
-import { Col, Container, Row } from 'reactstrap'
+import { Col, Row } from 'reactstrap'
 import { Link } from 'react-router-dom'
 //import { URL } from '../helpers/ApiHelper'
 

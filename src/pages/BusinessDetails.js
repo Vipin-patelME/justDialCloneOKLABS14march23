@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Badge, Button, Card, Carousel, Col, Container, Row } from 'react-bootstrap'
+import { Badge, Card, Carousel, Col, Container, Row } from 'react-bootstrap'
 import { AiFillLike, AiOutlineHeart } from 'react-icons/ai'
 import { TfiStar } from 'react-icons/tfi'
 import {BsFillTelephoneFill} from 'react-icons/bs'

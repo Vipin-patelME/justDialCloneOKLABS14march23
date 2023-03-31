@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { Rings } from 'react-loader-spinner'
 import { useSearchParams } from 'react-router-dom'
+import { searchContext } from '../Context'
 import { URL } from '../helpers/ApiHelper'
 import AllBusinesses from './AllBusinesses'
 //import BusinessDetail from './AllBusinesses'
 
 function Businesses() {
     //const array = [1,2]
+    const {filterInput} = useContext(searchContext)
+    console.log("businesses --->", filterInput)
+
     const [isLoading, setIsLoading] = useState(true)
     const [isOpen, setIsOpen] = useState(false)
     const [allBusiness, setAllBusiness] = useState([{name:""}])
@@ -38,6 +42,10 @@ function Businesses() {
     const closeMenu=()=>{
         setIsOpen(!isOpen)
     }
+
+    const filterBusinesses = allBusiness.filter(eachBusiness=> eachBusiness.name.toLowerCase().includes(filterInput.toLowerCase()))
+
+
   return (
         <>
             <Dropdown>
@@ -59,10 +67,13 @@ function Businesses() {
                 :
                 <ul className='business-list-items'>
                     {
-                        allBusiness.length > 0 ? 
-                        allBusiness.map((eachItem, idx) =><AllBusinesses details={eachItem}  key={idx} />)
+                        filterBusinesses.length > 0 ? 
+                        filterBusinesses.map((eachItem, idx) =><AllBusinesses details={eachItem}  key={idx} />)
                         :
-                        <h1 className='empty-para'>{`${params} Category has Nothing to show`}</h1>
+                        <>
+                            <h1 className='empty-para'>Sorry....!! Searched Key word Does not contain any business Name</h1>
+                            <h1 style={{textAlign:"center", width:"100%",marginBottom: "15%", marginTop:"30px", color: "green"}}>Thank you</h1>
+                        </> 
                     }
                 </ul>
             }
