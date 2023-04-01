@@ -17,8 +17,10 @@ import { searchContext } from "./Context";
 
 function App() {
   const [filterInput, setFilterInput] = useState("")
+  const [filterLanguage, setFilterLanguage] = useState(localStorage.getItem("lang"))
+  const [mainSlider, setMainSlider] = useState([{categoryName:"", imageUrl:""}])
   return (
-      <searchContext.Provider value={{filterInput, setFilterInput}}>
+      <searchContext.Provider value={{filterInput, setFilterInput, filterLanguage, setFilterLanguage, mainSlider, setMainSlider}}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LayOut />}>

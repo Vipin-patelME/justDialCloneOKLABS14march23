@@ -35,7 +35,7 @@ function Businesses() {
         }
         getBussinesse()
 
-    }, [])
+    },[])
     const openMenu=()=>{
         setIsOpen(!isOpen)
     }

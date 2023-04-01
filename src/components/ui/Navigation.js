@@ -27,16 +27,25 @@ function Navigation() {
     const jwtToken = localStorage.getItem("jwtToken")
     const [logoUrl, setLogoUrl] = useState('')
     const [placeName, setPlaceName] = useState("")
+    //const [sliderDetails,setSliderDetails] = useState([])
     const [locationSelected, setLocationSelected] = useState(false)
-    const [isEnglishActive, setIsEnglishActive ] = useState(true)
-    const {filterInput, setFilterInput} = useContext(searchContext)
+    const [isEnglishActive, setIsEnglishActive ] = useState((localStorage.getItem("lang") === "hi") ? false: true)
+    const {filterInput, setFilterInput, setFilterLanguage, setMainSlider} = useContext(searchContext)
 
     useEffect(()=>{
         const findLogoUrl = async()=>{
-            const response= await fetch(`${URL}/api/website?populate=*`)
+            const response= await fetch(`${URL}/api/website?populate[logo]=*&populate[main_slider][populate]=*`)
             const data = await response.json()
-            const navLogo = data.data.attributes.logo.data[0].attributes.url
+            const navLogo = data.data.attributes.logo.data.attributes.url
+            console.log("data----->",data.data.attributes.main_slider) 
+            const sliderNewDetails =  data.data.attributes.main_slider.map(eachData =>({
+                                                                                         categoryName:eachData.category_name,
+                                                                                         imageUrl:URL+eachData.slider_image.data[0].attributes.url 
+                                                                                        }))
+            setMainSlider([...sliderNewDetails])
             setLogoUrl(navLogo)
+            
+            
             //console.log("webLogo -------->", navLogo)
         }
         const locationName = localStorage.getItem("placeName")
@@ -101,13 +110,15 @@ function Navigation() {
     
     const onChangeLanguageToEnglish=()=>{
         localStorage.setItem("lang","hi")
+        setFilterLanguage("hi")
         setIsEnglishActive(!isEnglishActive)
     }
     const onChangeLanguageToHindi=()=>{
         localStorage.setItem("lang","en")
+        setFilterLanguage("en")
         setIsEnglishActive(!isEnglishActive)
     }
-    
+    //console.log(sliderDetails)
     return (
             <Navbar bg="light" expand="lg">
                 <Container fluid className='d-flex w-100'>
@@ -158,7 +169,7 @@ function Navigation() {
                                 isEnglishActive ? <Button style={{width:"100px", padding:"0px"}} className='btn btn-primary me-3' onClick={onChangeLanguageToEnglish}>
                                 <TbLanguageHiragana style={{fontSize:"20px", marginRight:"8px"}} /><span>हिंदी</span></Button>
                                 :
-                                <Button style={{width:"100px"}}  className='btn btn-primary me-3' onClick={onChangeLanguageToHindi}>
+                                <Button  style={{width:"100px"}}  className='btn btn-primary me-3' onClick={onChangeLanguageToHindi}>
                                 <TbLanguageHiragana style={{fontSize:"19px", marginRight:"4px"}} />English</Button>
                             }
                             {!jwtToken ? 

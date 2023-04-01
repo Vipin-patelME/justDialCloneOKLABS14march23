@@ -32,6 +32,7 @@ footer{
     text-align: center;
 }
 .categories-list{
+    margin-top: 20px;
     width: 100%;
     list-style-type: none;
     display: flex;

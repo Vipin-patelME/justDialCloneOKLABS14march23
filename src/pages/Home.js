@@ -3,6 +3,7 @@ import { URL } from '../helpers/ApiHelper'
 import { Rings } from 'react-loader-spinner'
 import { Link } from 'react-router-dom'
 import { searchContext } from '../Context'
+import HomeMainSlider from './HomeMainSlider'
 
 const ListItems = (props)=>{
     const {category} = props
@@ -25,17 +26,17 @@ function Home() {
 
     const [categories, setCategories] = useState([{id:"",categoryName:"",imgUrl:"" }])
     const [isLoading, setIsLoading] = useState(true)
-    const {filterInput} = useContext(searchContext)
+    const {filterInput, filterLanguage} = useContext(searchContext)
     //console.log(filterInput)
     useEffect(()=>{
-        const getData = async () =>{
-            const url = `${URL}/api/categories?populate=*`
+        const getData = async (language) =>{
+            const url = `${URL}/api/categories?locale=${language}&populate=*`
             const res = await fetch(url)
             const data = await res.json()
             setIsLoading(false)
             //console.log(data)
-            const newData = data.data.map((cv,idx) =>{
-                //console.log(cv.attributes.image.data[0].attributes.name                  )
+            const newData = data.data.map((cv) =>{
+                //console.log(cv.attributes.image.data[0].attributes.name)
                 return ({
                             id:cv.id,
                             categoryName: cv.attributes.category_name,
@@ -45,9 +46,16 @@ function Home() {
             setCategories([...newData ])
             //console.log(newData)
         }
-        getData()
-    }, [])
+        if (filterLanguage=== "en"){
+            getData("en")
+        }
+        else{
+            getData("hi")
+        }
+        
+    }, [filterLanguage])
 
+    //console.log(filterLanguage)
     const filterderCategories = categories.filter(eachCategory =>eachCategory.categoryName.toLowerCase().includes(filterInput.toLowerCase()))
     //console.log(filterderCategories)
   return (
@@ -58,19 +66,24 @@ function Home() {
                 <Rings color="#00BFFF" height={280} width={280} />
             </div>
             :
-            <ul className='categories-list'>
+            <>
                 {
-                    filterderCategories.length > 0 ?
-                    filterderCategories.map((eachCategory, idx) =>
-                        <ListItems key={idx} category={eachCategory} />    
-                    )
-                    :
-                    <>
-                        <h1 className='empty-para'>Sorry....!! Searched Key word Does not contain any business category</h1>
-                        <h1 style={{textAlign:"center", width:"100%",marginBottom: "15%", marginTop:"30px", color: "green"}}>Thank you</h1>
-                    </>
+                    <HomeMainSlider />
                 }
-            </ul>
+                <ul className='categories-list'>
+                    {
+                        filterderCategories.length > 0 ?
+                        filterderCategories.map((eachCategory, idx) =>
+                            <ListItems key={idx} category={eachCategory} />    
+                        )
+                        :
+                        <>
+                            <h1 className='empty-para'>Sorry....!! Searched Key word Does not contain any business category</h1>
+                            <h1 style={{textAlign:"center", width:"100%",marginBottom: "15%", marginTop:"30px", color: "green"}}>Thank you</h1>
+                        </>
+                    }
+                </ul>
+            </>
         }
     </>
   )
