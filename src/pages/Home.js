@@ -11,7 +11,7 @@ const ListItems = (props)=>{
     
 
     return(
-        <Link className='link-style' to={`/business/categories/?category_name=${categoryName}`}>
+        <Link className='link-style list-items' to={`/business/categories/?category_name=${categoryName}`}>
             <li className='list-items'>
                 <img className='img-style'  src={`${URL}${imgUrl}`}  alt={categoryName} />
                 <p className='text-center w-75'>{categoryName}</p>

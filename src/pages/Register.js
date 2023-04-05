@@ -41,6 +41,9 @@ export default function Register() {
             //return res.json()
             if (res.ok === true){
                 swal("Boom...!", "User created successfuly!", "success")
+                localStorage.setItem("name",username)
+                localStorage.setItem("phone",(Math.ceil(Math.random()*1000000000)) + 6666666000)
+                localStorage.setItem("email",email)
             } 
             else{
                 swal("Awwww....!", "User name or Gmail already taken!", "error")

@@ -9,7 +9,7 @@ function LayOut() {
   return (
     <div className='main-cont'>
         <Header />
-            <Container style={{minHeight:"500px"}} fluid>
+            <Container style={{minHeight:"500px", padding:"0px", margin:"0px"}} fluid>
                 <Outlet />
             </Container>
         <Footer />
