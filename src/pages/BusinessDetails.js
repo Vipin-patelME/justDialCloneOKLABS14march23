@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Badge, Button, Card, Carousel, Col, Container, Modal, Row } from 'react-bootstrap'
+import axios from 'axios'
+import { Badge, Button, Card, Carousel, CloseButton, Col, Container, Modal, Row } from 'react-bootstrap'
 import { AiFillLike, AiOutlineHeart } from 'react-icons/ai'
 import { TfiStar } from 'react-icons/tfi'
 import {BsFillTelephoneFill} from 'react-icons/bs'
@@ -7,13 +8,16 @@ import {FaWhatsappSquare} from "react-icons/fa"
 import {RiMailStarLine} from 'react-icons/ri'
 //import { BiLike } from 'react-icons/bi'
 import { Rings } from 'react-loader-spinner'
-import { useSearchParams } from 'react-router-dom'
-import { URL } from '../helpers/ApiHelper'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { URL as url } from '../helpers/ApiHelper'
 import { TbShare3 } from 'react-icons/tb'
 import swal from 'sweetalert'
 
 function BusinessDetails() {
+
+    const history = useNavigate()
     const [params] = useSearchParams()
+    const [token, setToken] = useState(localStorage.getItem("jwtToken"))
     const [emptyImage, setEmptyImage] = useState([localStorage.getItem("emptyImage")])
     
     //console.log(params.get("id"))
@@ -31,22 +35,33 @@ function BusinessDetails() {
     const [username, setUsername] = useState(localStorage.getItem("name"))
     const [email, setEmail] = useState(localStorage.getItem("email"))
     const [phoneNo, setphoneNo] = useState(localStorage.getItem("phone"))
+    const [modalFor, setModalFor] = useState({enqiry:true})
+    //const [buttonClicked, setButtonClicked] = useState("")
+    const [uploadedImage, setUploadedImage] = useState("") 
+    const [imageSelected,setImageSelected] = useState(false)
+    const [desc,setDesc] = useState("")
+    const [files, setFiles] = useState('')
+    const[closeButton,setCloseButton] = useState(false)
+    const [progress, setProgress] = useState(0)
+    const [showProgressBar, setShowProgressBar] = useState("")
 
     const getEmptyImage = async()=>{
-            const response = await fetch(`${URL}/api/empty-image?populate=*`)
+            const response = await fetch(`${url}/api/empty-image?populate=*`)
             const data = await response.json()
-            const emptyImageUrl = URL+data.data.attributes.empty_image.data[0].attributes.url
+            const emptyImageUrl = url+data.data.attributes.empty_image.data[0].attributes.url
             //console.log("emptydata------>",data.data.attributes.empty_image.data[0].attributes.url)
             //setEmptyImage([emptyImageUrl])
             localStorage.setItem("emptyImage",emptyImageUrl)
         }
     getEmptyImage()
 
+    
+
     useEffect(()=>{
         const businessId = params.get("id")
 
         const getBusinessDetails=async()=>{
-            const response = await fetch(`${URL}/api/occupations/${businessId}?populate=*`)
+            const response = await fetch(`${url}/api/occupations/${businessId}?populate=*`)
             const data = await response.json()
             //console.log("data --------->",data.data)
             const newData = 
@@ -55,7 +70,7 @@ function BusinessDetails() {
                                 city:data.data.attributes.cities.data[0].attributes.city_name,
                                 address:data.data.attributes.addres,
                                 contactNo:data.data.attributes.contact_no,
-                                carousalImage:(data.data.attributes.carousal_image.data === null) ? [...emptyImage]  : (data.data.attributes.carousal_image.data.map(cv =>(URL+cv.attributes.url))),
+                                carousalImage:(data.data.attributes.carousal_image.data === null) ? [...emptyImage]  : (data.data.attributes.carousal_image.data.map(cv =>(url+cv.attributes.url))),
                                 categoryName:data.data.attributes.category.data.attributes.category_name
                                 //data.data.attributes.carousal_image.data.map(cv =>cv.attributes.url)
                             }
@@ -67,17 +82,25 @@ function BusinessDetails() {
         
     },[])
 
-    const handleOpen = ()=>{
-        setShow(true)
+    const onEnquiry = ()=>{
         setEmail(localStorage.getItem("email"))
+        setModalFor({enqiry:true})
+        setShow(true)
         // if(email.length<1){
             
         // }
     }
+    const onUploadImage = ()=>{
+        {token ? setShow(true): history("/register")}
+        setModalFor({enqiry:false})
+    }
 
     const handleClose = ()=>{
         setShow(false)
+        setImageSelected(false)
+        setCloseButton(false)
     }
+
     const onUserNameInput =(e)=>{
         //setUsername(e.target.value)
     }
@@ -88,83 +111,184 @@ function BusinessDetails() {
     const onPasswordInput = (e)=>{
         //setphoneNo(e.target.value)
     }
+
     const onSubmitEnquiry = async(e) =>{
         e.preventDefault()
-        const enquiryData = {
-            "data": {
-              "full_name": username,
-              "contact_no": phoneNo,
-              "email": email,
-              "occupation": params.get("id"),
-              "users_permissions_user": "23"
+        if(token){
+            const enquiryData = {
+                "data": {
+                "full_name": username,
+                "contact_no": phoneNo,
+                "email": email,
+                "occupation": params.get("id"),
+                "users_permissions_user": "23"
+                }
             }
-          }
-        const options = {
-            method:"POST",
-            headers:{
-                "Content-Type":"Application/json"
-            },
-            body:JSON.stringify(enquiryData)
-        }
-
-        const response = await fetch(`${URL}/api/enquiries`, options)
-        const data = await response.json()
-        if(response.ok === true){
-            swal("Thank you for enquiry","Our member will contact you soon","success")
-            setShow(false)
+            const options = {
+                method:"POST",
+                headers:{
+                    "Content-Type":"Application/json"
+                },
+                body:JSON.stringify(enquiryData)
+            }
+            const response = await fetch(`${url}/api/enquiries`, options)
+            const data = await response.json()
+            if(response.ok === true){
+                swal("Thank you for enquiry","Our member will contact you soon","success")
+                setShow(false)
+            }
+            else{
+                swal("Awww....","please provide valid credentials","warning")
+            }
         }
         else{
-            swal("Awww....","please provide valid credentials","warning")
+        swal("Aww.....", "Please Register first", "warning")
+            history("/register")
         }
-
-
+        
     }
+
+
+    const onReadFile = (e)=>{
+        const file = e.target.files[0]
+        //console.log(file)
+        if (file.type === "image/jpeg" || file.type === "image/png"){
+            setFiles(file)
+            setUploadedImage(URL.createObjectURL(file))
+            setImageSelected(true)
+        }
+        else{
+            swal("Aww....", "you have to select jpeg or png Image only", "error")
+        }
+    }
+    
+    const onReadDesc = (e) =>{
+        setDesc(e.target.value)
+    }
+
+    const uploadImageAndDesc = ()=>{
+        const formData = new FormData();
+        formData.append("files", files);
+        console.log(formData)
+        axios.post(`${url}/api/upload`, formData, {
+            headers: {
+            'Content-Type': 'multipart/form-data'
+            },
+            onUploadProgress : (progressEvent) => {
+                const progress = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                //console.log(progress);
+                setProgress(progress);
+
+                if(progress===100){
+                    setShowProgressBar(false)
+
+                    //setShow(false)
+                    setCloseButton(true)
+                    setProgress(0)
+                    //setImageSelected(false)
+                }
+
+            }
+        })
+    }
+
+    const onUploadFile = (e) =>{
+        e.preventDefault()
+        setShowProgressBar(true)
+        //alert("GO ahead")
+        uploadImageAndDesc()
+        //await setShow(false)
+        //await setImageSelected(false)
+    }
+    
+    
     const generateEnqiryModal = ()=>{
         return(
             <>
                 <Modal size="lg"  show={show} onHide={handleClose}>
                     <Row  className=''>
-                        <Col className='enwiry-form' lg={8}>
-                        <div className='m-0 p-0 w-100'>
-                            <form  className='login-form m-0 pb-5 w-100' onSubmit={onSubmitEnquiry}>
-                                <div className='w-75 mb-5'>
-                                    <h3>Are you Looking for?</h3>
-                                    <p>{`"${categoryName}"`}</p>
+                        {modalFor.enqiry ?
+                        <>
+                            <Col className='enwiry-form' lg={8}>
+                                <div className='m-0 p-0 w-100'>
+                                    <form  className='login-form m-0 pb-5 w-100' onSubmit={onSubmitEnquiry}>
+                                        <div className='w-75 mb-5'>
+                                            <h3>Are you Looking for?</h3>
+                                            <p>{`"${categoryName}"`}</p>
+                                        </div>
+                                        <div className="mb-3 ml-5 w-75 row">
+                                            <label htmlFor="staticEmail" className="col-sm-2 col-form-label">User name</label>
+                                            <div className="col-sm-10 w-50">
+                                            <input type="text" onChange={onUserNameInput}  value={username} className="form-control" id="staticEmail"  />
+                                            </div>
+                                        </div>
+                                        <div className="mb-3 ml-5 w-75 row">
+                                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Phone no</label>
+                                            <div className="col-sm-10 w-50">
+                                            <input type="text" onChange={onPasswordInput} value={phoneNo} className="form-control" id="inputPassword" />
+                                            </div>
+                                        </div>
+                                        <div className="mb-3 ml-5 w-75 row">
+                                            <label htmlFor="inputEmail" className="col-sm-2 col-form-label">Email</label>
+                                            <div className="col-sm-10 w-50">
+                                            <input type="email" onChange={onEmailInput} value={email} className="form-control" id="inputEmail" />
+                                            </div>
+                                        </div>
+                                        <div className="mb-3 row cr-btn-cont w-50 ml-5">
+                                        <Button  type="submit" style={{fontWeight:"bold"}} variant="warning">
+                                            Send Enquiry
+                                        </Button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div className="mb-3 ml-5 w-75 row">
-                                    <label htmlFor="staticEmail" className="col-sm-2 col-form-label">User name</label>
-                                    <div className="col-sm-10 w-50">
-                                    <input type="text" onChange={onUserNameInput}  value={username} className="form-control" id="staticEmail"  />
+                            </Col>
+                            <Col className='modal-image-cont' lg={4}>
+                                
+                            </Col>
+                        </>
+                        :
+                        <>
+                            <form onSubmit = {onUploadFile} className='p-5'>
+                                { imageSelected ?
+                                    <>
+                                    <div className='d-flex'>
+                                        <img className='w-25 me-3' src = {uploadedImage} alt="upladedImage" />
+                                        <textarea className='w-100 p-2' value={desc} rows={4} placeholder="write your opinion" onChange={onReadDesc}></textarea>
                                     </div>
-                                </div>
-                                <div className="mb-3 ml-5 w-75 row">
-                                    <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Phone no</label>
-                                    <div className="col-sm-10 w-50">
-                                    <input type="text" onChange={onPasswordInput} value={phoneNo} className="form-control" id="inputPassword" />
+                                    {
+                                        closeButton ? 
+                                        <>
+                                            <h2 className='mb-3 mt-3 text-center'>Image loaded successfully!</h2>
+                                            <button className='btn btn-primary w-25 mt-3 mb-3' style={{fontWeight:"bold"}} type='button' onClick={handleClose}>Close</button>
+                                        </>
+                                        :
+                                        <button className='btn btn-primary w-25 mt-3 mb-3' type = "submit" style={{fontWeight:"bold"}} >Upload File</button>
+                                    }
+                                    {showProgressBar?
+                                        <div className="progress">
+                                            <div className="progress-bar progress-bar-striped bg-success" role="progressbar" style={{width: `${progress}%`}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <p>Loading image.......</p>
+                                        </div>
+                                        :
+                                        ""
+                                    }                                    
+                                    </>
+                                    :
+                                    <div>
+                                        <input className=' p-5 w-100 mb-4' style={{border:"2px dashed red", borderRadius:"8px", height:"260px"}} type="file" onChange={onReadFile} />
                                     </div>
-                                </div>
-                                <div className="mb-3 ml-5 w-75 row">
-                                    <label htmlFor="inputEmail" className="col-sm-2 col-form-label">Email</label>
-                                    <div className="col-sm-10 w-50">
-                                    <input type="email" onChange={onEmailInput} value={email} className="form-control" id="inputEmail" />
-                                    </div>
-                                </div>
-                                <div className="mb-3 row cr-btn-cont w-50 ml-5">
-                                <Button  type="submit" variant="warning">
-                                    Send Enquiry
-                                </Button>
-                                </div>
+                                }                           
                             </form>
-                        </div>
-                        </Col>
-                        <Col className='modal-image-cont' lg={4}>
-                            
-                        </Col>
+                        </>
+
+                        }
                     </Row>
                 </Modal>
             </>
         )
     }
+
+
 
     //console.log(businessData)
     const {carousalImage, name, contactNo, categoryName, city} = businessData
@@ -245,11 +369,16 @@ function BusinessDetails() {
                                 </div>
                             </div>
                             <div className='enqire-btn-cont'>
-                                <button type='button' style={{border:"1px solid gray", marginRight:"25px"}} className='btn btn-primary float-end' onClick={handleOpen}>
-                                    <FaWhatsappSquare style={{fontSize:"25px",marginRight:"8px"}}/><span style={{fontWeight:"bold"}}>Enqire Now</span>
+                                <button type='button' style={{border:"1px solid gray", marginRight:"25px"}} className='btn btn-primary float-end' onClick={onEnquiry}>
+                                    <FaWhatsappSquare style={{fontSize:"25px",marginRight:"8px"}}/><span style={{fontWeight:"bold"}}>Enquire Now</span>
                                 </button>
                             </div>
                         </Card.Body>
+                        <div className='m-3'>
+                            <button type='button' style={{border:"1px solid gray", marginRight:"25px"}} className='btn btn-primary' onClick={onUploadImage}>
+                                <FaWhatsappSquare style={{fontSize:"25px",marginRight:"8px"}}/><span style={{fontWeight:"bold"}}>Upload Images</span>
+                            </button>
+                        </div>
                     </ Card>
                 </Row>
             </Container>

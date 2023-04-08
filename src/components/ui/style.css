@@ -193,6 +193,7 @@ footer{
 }
 .business-list-items{
     list-style-type: none;
+    width: 100%;
 }
 .bdetai-rating-cont{
     width: 33%;

@@ -5,6 +5,8 @@ import { useSearchParams } from 'react-router-dom'
 import { searchContext } from '../Context'
 import { URL } from '../helpers/ApiHelper'
 import AllBusinesses from './AllBusinesses'
+import swal from 'sweetalert';
+//import commonApiCallMethod from '../utils/commonApiCAll'
 //import BusinessDetail from './AllBusinesses'
 
 function Businesses() {
@@ -27,21 +29,27 @@ function Businesses() {
         console.log("called api page no is ------->",pageCount )
 
         const getBussinesse = async()=>{
-            const res = await fetch(`${URL}/api/occupations?populate=*&filters[category][category_name][$containsi]=${params}&pagination[page]=${pageCount + 1}&pagination[pageSize]=10`)
+            const res = await fetch(`${URL}/api/occupations?populate=*&filters[category][category_name][$containsi]=${params}&pagination[page]=${pageCount + 1}&pagination[pageSize]=8`)
             const data = await res.json()
             console.log("businessData--->",data.data)
-            const newData = data.data.map(eachData => ({
-                rating:eachData.attributes.rating,
-                id:eachData.id,
-                name:eachData.attributes.name,
-                contactNo:eachData.attributes.contact_no,
-                imageUrl:(eachData.attributes.image.data ===null ? emptyImage : `${URL}${eachData.attributes.image.data[0].attributes.url}`)
-            }))
-
-            const meta = data.meta.pagination
-            setPaginationInfo({...meta})
-            setBusinessDetail([...businessDetail,...newData])
-            setIsLoading(false)
+            if (res.ok === true){
+                const newData = data.data.map(eachData => ({
+                    rating:eachData.attributes.rating,
+                    id:eachData.id,
+                    name:eachData.attributes.name,
+                    contactNo:eachData.attributes.contact_no,
+                    imageUrl:(eachData.attributes.image.data ===null ? emptyImage : `${URL}${eachData.attributes.image.data[0].attributes.url}`)
+                }))
+                setIsLoading(false)
+                setBusinessDetail([...businessDetail,...newData])
+                const meta = data.meta.pagination
+                setPaginationInfo({...meta})
+                
+                
+            }
+            else{
+                swal("Awwww.....","Something went wrong", "danger" )
+            }
         }
         getBussinesse()
 
@@ -52,6 +60,7 @@ function Businesses() {
     const getNewData = ()=>{
         if (pageCount < paginationInfo.pageCount-1){
             setPageCount(pageCount + 1)
+            console.log(" ")
         }
     }
 
@@ -62,16 +71,15 @@ function Businesses() {
             scrollHeight,
             clientHeight
         } = document.documentElement
-        console.log("scrollTop------->",scrollTop)
-        console.log("clientHeight------->",clientHeight)
-        console.log("scrollHeight----->",scrollHeight)
+        // console.log("scrollTop------->",scrollTop)
+        // console.log("clientHeight------->",clientHeight)
+        // console.log("scrollHeight----->",scrollHeight)
 
         if (scrollTop + clientHeight >= scrollHeight -120){
             console.log("api called and page no is----->", pageCount)
             getNewData()
         }
     }
-
 
     const getRatingValue = (e)=>{
         const rating = e.target.getAttribute("data-value")
@@ -119,11 +127,9 @@ function Businesses() {
         )
     }
 
+    
 
-
-
-
-  return (
+    return (
         <>
             {generateModel()}
             <Row className='m-5'>

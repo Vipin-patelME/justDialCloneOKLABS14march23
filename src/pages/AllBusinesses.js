@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {AiFillLike} from "react-icons/ai"
 //import {CiStar} from 'react-icons/ci'
 //import {FaStar} from 'react-icons/fa'
 import {TfiStar} from 'react-icons/tfi'
 import {AiOutlineHeart} from 'react-icons/ai'
 import {MdOutlineMessage} from 'react-icons/md'
-import { Badge, Card } from 'react-bootstrap'
+import { Badge, Button, Card, Modal } from 'react-bootstrap'
 //import { useLocation, useMatch, useParams } from 'react-router-dom'
 import { Col, Row } from 'reactstrap'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+
 //import { URL } from '../helpers/ApiHelper'
 
 const AllBusinesses =({details})=> {
+
+    const [show, setShow] = useState(false)
+    const [username] = useState(localStorage.getItem("name"))
+    const [phoneNo] = useState(localStorage.getItem("phone"))
+    const [email, setEmail] = useState(localStorage.getItem("email"))
+
+
     const {name, contactNo, imageUrl, id} = details
     // const id = useParams()
     // const location = useLocation()
@@ -19,10 +27,83 @@ const AllBusinesses =({details})=> {
     //console.log(history)
     // console.log(location)
     // console.log(id)
+    const navigate = useNavigate()
+
+    const onNavigate = ()=>{
+        navigate(`/business/details/?business_name=${name}&id=${id}`)
+    }
+
+    const onEmailInput = e =>{
+        setEmail(e.target.value)
+    }
+    const handleClose = ()=>{
+        setShow(false)
+    }
+    const handleShow =(e)=>{
+        e.stopPropagation()
+        setShow(true)
+        setEmail(localStorage.getItem("email"))
+    }
+
+    const onSubmitEnquiry = (e)=>{
+        e.preventDefault()
+        setShow(false)
+    }
+
+    const generateEnqiryModal = ()=>{
+        return(
+            <>
+                <Modal size="lg"  show={show} onHide={handleClose}>
+                    <Row  className=''>
+                        <>
+                            <Col className='enwiry-form' lg={8}>
+                                <div className='m-0 p-0 w-100'>
+                                    <form  className='login-form m-0 pb-5 w-100' onSubmit={onSubmitEnquiry}>
+                                        <div className='w-75 mb-5'>
+                                            <h3>Are you Looking for?</h3>
+                                            <p>{`"${name}"`}</p>
+                                        </div>
+                                        <div className="mb-3 ml-5 w-75 row">
+                                            <label htmlFor="staticEmail" className="col-sm-2 col-form-label">User name</label>
+                                            <div className="col-sm-10 w-50">
+                                            <input type="text"  value={username} className="form-control" id="staticEmail"  />
+                                            </div>
+                                        </div>
+                                        <div className="mb-3 ml-5 w-75 row">
+                                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Phone no</label>
+                                            <div className="col-sm-10 w-50">
+                                            <input type="text" value={phoneNo} className="form-control" id="inputPassword" />
+                                            </div>
+                                        </div>
+                                        <div className="mb-3 ml-5 w-75 row">
+                                            <label htmlFor="inputEmail" className="col-sm-2 col-form-label">Email</label>
+                                            <div className="col-sm-10 w-50">
+                                            <input type="email" onChange={onEmailInput} value={email} className="form-control" id="inputEmail" />
+                                            </div>
+                                        </div>
+                                        <div className="mb-3 row cr-btn-cont w-50 ml-5">
+                                        <Button  type="submit" style={{fontWeight:"bold"}} variant="warning">
+                                            Send Enquiry
+                                        </Button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </Col>
+                            <Col className='modal-image-cont' lg={4}>
+                                
+                            </Col>
+                        </>
+                    </Row>
+                </Modal>
+            </>
+        )
+    }
+
     return (
-        <Link to={`/business/details/?business_name=${name}&id=${id}`} className='link-style'>
+        <>
+            {generateEnqiryModal()}
             <li className="">
-                <Card className='w-75'>
+                <Card onClick={onNavigate} className='w-75 p-0 mb-5' style={{cursor:"pointer"}}>
                     <Row>
                         <Col md={5} lg={3}>
                             <div className='p-0 me-4 w-100'>
@@ -56,7 +137,7 @@ const AllBusinesses =({details})=> {
                             </div>
                             <div className='contact-btn-cont'>
                                 <a href={`tel:${contactNo}`} className='btn btn-success' onClick={(e)=>e.stopPropagation()}>{`+91-${contactNo}`}</a>
-                                <a href="#" target="blank" className='btn btn-success' onClick={(e)=>e.stopPropagation()}>Enqire Now</a>
+                                <a href="#" target="blank" className='btn btn-success' onClick={handleShow}>Enqire Now</a>
                             </div>
                         </Col>
                         <Col md={2} lg={1}>
@@ -65,7 +146,7 @@ const AllBusinesses =({details})=> {
                     </Row>
                 </Card>
             </li>
-        </Link>
+        </>
     )
 }
 

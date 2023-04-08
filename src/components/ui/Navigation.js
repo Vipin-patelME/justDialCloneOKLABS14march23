@@ -37,7 +37,7 @@ function Navigation() {
             const response= await fetch(`${URL}/api/website?populate[logo]=*&populate[main_slider][populate]=*`)
             const data = await response.json()
             const navLogo = data.data.attributes.logo.data.attributes.url
-            console.log("data----->",data.data.attributes.main_slider) 
+            console.log("navigation   data----->",data.data.attributes.main_slider) 
             const sliderNewDetails =  data.data.attributes.main_slider.map(eachData =>({
                                                                                          categoryName:eachData.category_name,
                                                                                          imageUrl:URL+eachData.slider_image.data[0].attributes.url 
@@ -112,6 +112,7 @@ function Navigation() {
         localStorage.setItem("lang","hi")
         setFilterLanguage("hi")
         setIsEnglishActive(!isEnglishActive)
+
     }
     const onChangeLanguageToHindi=()=>{
         localStorage.setItem("lang","en")

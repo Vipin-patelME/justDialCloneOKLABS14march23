@@ -4,6 +4,7 @@ import { Rings } from 'react-loader-spinner'
 import { Link } from 'react-router-dom'
 import { searchContext } from '../Context'
 import HomeMainSlider from './HomeMainSlider'
+import commonApiCallMethod from '../utils/commonApiCAll'
 
 const ListItems = (props)=>{
     const {category} = props
@@ -36,7 +37,7 @@ function Home() {
             setIsLoading(false)
             //console.log(data)
             const newData = data.data.map((cv) =>{
-                //console.log(cv.attributes.image.data[0].attributes.name)
+                console.log(cv.attributes.image.data[0].attributes.name)
                 return ({
                             id:cv.id,
                             categoryName: cv.attributes.category_name,
@@ -53,6 +54,21 @@ function Home() {
             getData("hi")
         }
         
+        // commonApiCallMethod(`${URL}/api/categories?locale=en&populate=*`)
+        // .then((data)=>{
+        // console.log(data.data)
+        // setIsLoading(false)
+        // const newData = data.data.map((cv) =>{
+        //             //console.log(cv.attributes.image.data[0].attributes.name)
+        //             return ({
+        //                         id:cv.id,
+        //                         categoryName: cv.attributes.category_name,
+        //                         imgUrl:cv.attributes.image.data[0].attributes.url
+        //                     })
+        //         })
+        //     setCategories([...newData ])
+        //     })
+        // .catch (error=>error)
     }, [filterLanguage])
 
     //console.log(filterLanguage)

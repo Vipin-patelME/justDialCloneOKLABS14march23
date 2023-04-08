@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Carousel, Col, Container, Row } from "react-bootstrap";
+import { Carousel, Col, Row } from "react-bootstrap";
 //import { Rings } from 'react-loader-spinner'
 import { Link } from "react-router-dom";
 import { searchContext } from "../Context";
